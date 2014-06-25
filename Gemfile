@@ -25,11 +25,9 @@ group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
-group :assets do
-  gem 'sass-rails'
-  gem 'uglifier'
-  gem 'compass-h5bp'
-end
+gem 'sass-rails'
+gem 'uglifier'
+gem 'compass-h5bp'
 
 # Html5 boilerplate
 gem 'html5-rails'
