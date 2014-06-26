@@ -61,6 +61,6 @@ class Frame < ActiveRecord::Base
   #
   # @returns True if it is a spare, else false.
   def spare?
-    !strike? && first_throw + second_throw == 10
+    !strike? && first_throw.to_i + second_throw.to_i == 10
   end
 end

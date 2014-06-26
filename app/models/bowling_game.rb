@@ -2,12 +2,13 @@
 class BowlingGame < ActiveRecord::Base
   belongs_to :user
   has_many :frames
+  accepts_nested_attributes_for :frames
+  before_create :score
    
   # Checks to see if the game has ten frames, numbered 1 through 10 attached to it.
   #
   # @returns True if there are ten frames.
   def finished?
-    reload
     sorted_frames = frames.sort {|a,b| a.number <=> b.number}
     finished = true
     if sorted_frames.length == 10
@@ -20,6 +21,61 @@ class BowlingGame < ActiveRecord::Base
       finished = false
     end
     return finished
+  end
+
+  # Score the game by adding up the socres of each individual frame.
+  def score
+    score = frames.reduce(0) { |sum, frame| sum + score_frame(frame) } 
+  end
+
+  # Score an individual frame.
+  #
+  # @params frame [Frame] The frame to score.
+  def score_frame frame
+    if frame.strike?
+      score = frame.first_throw + next_two_throws(frame)
+    elsif frame.spare?
+      score = frame.first_throw + frame.second_throw + next_throw(frame)
+    else
+      score = frame.first_throw + frame.second_throw
+    end
+    return score
+  end
+
+  # Get the next frame from the frame a spare happened on
+  #
+  # @params frame [Frame] The current frame in which the spare occured.
+  def next_throw frame
+    if frame.number != 10
+      next_frame = frames.where(number: frame.number + 1).take
+      return next_frame.first_throw
+    else
+      return frame.third_throw
+    end
+  end
+
+  # Get the next two throws from the frame a strike happened on.
+  #
+  # @params frame [Frame] The current frame in which the strike occured.
+  def next_two_throws frame
+    if frame.number != 10
+      next_frame = frames.where(number: frame.number + 1).take
+      first_throw = next_frame.first_throw
+      if next_frame.strike?
+        if next_frame.number != 10
+          secondary_frame = frames.where(number: next_frame.number + 1).take
+          second_throw = secondary_frame.first_throw
+        else
+          second_throw = next_frame.second_throw
+        end
+      else
+        second_throw = next_frame.second_throw
+      end
+    else
+      first_throw = frame.second_throw
+      second_throw = frame.third_throw
+    end
+    return first_throw + second_throw
   end
 
 end

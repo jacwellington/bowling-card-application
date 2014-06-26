@@ -1,0 +1,18 @@
+<%= form_for @bowling_game do |f| %>
+<ul>
+	<% frame_number = 1 %>
+	<%= f.fields_for :frames do |frame_form| %>
+	<li>
+	<h2><%= frame_number %></h2>
+		First Throw: <%= frame_form.number_field :first_throw %>
+		Second Throw: <%= frame_form.number_field :second_throw %>
+		<% if frame_number == 10 %> 
+			Third Throw: <%= frame_form.number_field :third_throw %>
+		<% end %>
+		<%= frame_form.hidden_field :number, value: frame_number %>
+		<% frame_number = frame_number + 1 %>
+	</li>
+	<% end %>
+</ul>
+<%= f.submit ("Submit") %>
+<% end %>

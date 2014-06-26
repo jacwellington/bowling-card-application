@@ -1,0 +1,5 @@
+<h1>INDEX</h1>
+<% @bowling_games.each do |bowling_game| %>
+	score: <%= bowling_game.score %>
+<% end %>
+<%= link_to "New Game", new_bowling_game_path %>

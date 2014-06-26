@@ -1,2 +1,0 @@
-class BowlingGameController < ApplicationController
-end
