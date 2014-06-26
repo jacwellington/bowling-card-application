@@ -7,6 +7,7 @@ group :development, :test do
 end
 group :development do
   gem 'sqlite3'
+  gem 'pry-debugger'
 end
 group :production do
   gem 'pg'
@@ -33,9 +34,6 @@ gem 'compass-rails'
 gem 'uglifier'
 gem 'compass-h5bp'
 gem 'jquery-rails'
-
-# Debugging
-gem 'pry-debugger'
 
 # Fake Content
 gem 'faker'
