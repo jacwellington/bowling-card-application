@@ -2,11 +2,13 @@ class BowlingGamesController < ApplicationController
   before_action :authenticate_user!
   def index
     @bowling_games = BowlingGame.where(user_id: current_user.id)
+    @average_score = current_user.average_score
   end
 
   def new
     @bowling_game = BowlingGame.new
     10.times {@bowling_game.frames.build }
+    @bowling_game.comments.build
   end
 
   def create
@@ -21,6 +23,6 @@ class BowlingGamesController < ApplicationController
 
   private 
   def bowling_game_params
-    params.require(:bowling_game).permit(:user_id, frames_attributes: [:id, :first_throw, :second_throw, :third_throw, :number])
+    params.require(:bowling_game).permit(:user_id, frames_attributes: [:id, :first_throw, :second_throw, :third_throw, :number], comments_attributes: [:id, :body])
   end
 end

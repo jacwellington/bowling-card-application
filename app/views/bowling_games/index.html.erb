@@ -1,5 +1,19 @@
 <h1>INDEX</h1>
+<table>
+<tr><th>Score</th><th>Created at date</th><th>Comments</th></tr>
 <% @bowling_games.each do |bowling_game| %>
-	score: <%= bowling_game.score %>
-<% end %>
+	<tr>
+	<td><%= bowling_game.score %></td>
+	<td><%= bowling_game.created_at %></td>
+	<td>
+		<% bowling_game.comments.each_with_index do |comment, index| %><%= comment.body %>
+			<% if index != bowling_game.comments.length - 1 %>
+				, 
+			<% end %>
+		<% end %>
+	</td>
+	</tr>
+	<% end %>
+</table>
+<p>Average Score: <%= @average_score %></p>
 <%= link_to "New Game", new_bowling_game_path %>

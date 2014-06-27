@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140625214108) do
+ActiveRecord::Schema.define(version: 20140627134033) do
 
   create_table "bowling_games", force: true do |t|
     t.integer  "user_id"
@@ -21,6 +21,15 @@ ActiveRecord::Schema.define(version: 20140625214108) do
   end
 
   add_index "bowling_games", ["user_id"], name: "index_bowling_games_on_user_id"
+
+  create_table "comments", force: true do |t|
+    t.integer  "bowling_game_id"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["bowling_game_id"], name: "index_comments_on_bowling_game_id"
 
   create_table "frames", force: true do |t|
     t.integer  "first_throw"

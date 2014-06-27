@@ -4,10 +4,10 @@ gem 'rails', '4.0.0'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
+  gem 'pry-debugger'
 end
 group :development do
   gem 'sqlite3'
-  gem 'pry-debugger'
 end
 group :production do
   gem 'pg'

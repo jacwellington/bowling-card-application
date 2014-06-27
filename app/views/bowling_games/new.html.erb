@@ -4,15 +4,19 @@
 	<%= f.fields_for :frames do |frame_form| %>
 	<li>
 	<h2><%= frame_number %></h2>
-		First Throw: <%= frame_form.number_field :first_throw %>
+	First Throw: <%= frame_form.number_field :first_throw %><br/>
 		Second Throw: <%= frame_form.number_field :second_throw %>
 		<% if frame_number == 10 %> 
-			Third Throw: <%= frame_form.number_field :third_throw %>
+			<br/>Third Throw: <%= frame_form.number_field :third_throw %>
 		<% end %>
 		<%= frame_form.hidden_field :number, value: frame_number %>
 		<% frame_number = frame_number + 1 %>
 	</li>
 	<% end %>
 </ul>
+<%= f.fields_for :comments do |comment_form| %>
+	Comments: <%= comment_form.text_field :body %>
+<% end %>
+<br/>
 <%= f.submit ("Submit") %>
 <% end %>
