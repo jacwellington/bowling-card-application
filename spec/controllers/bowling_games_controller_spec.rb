@@ -23,9 +23,32 @@ RSpec.describe BowlingGamesController, :type => :controller do
       FactoryGirl.create(:frame, bowling_game_id: bowling_games[time].id, number: 10, first_throw: 10, second_throw: 10, third_throw: 10)
     end
     bowling_games.each do |bowling_game|
+      bowling_game.score_game
+      bowling_game.save
       bowling_game.reload
     end
   end
+
+  describe "GET show" do
+    it "redirects to login when not signed in" do
+      sign_in nil
+      get :show, id: @bowling_game0.id
+      expect(response).to redirect_to(new_user_session_path)
+    end
+    it "redirects to index when the user doesn't own the game" do
+      user2 = FactoryGirl.create(:user)
+      sign_in user2 
+      get :show, id: @bowling_game0.id
+      expect(response).to redirect_to(bowling_games_path)
+    end
+    it "renders the show page and assigns the correct bowling game to @bowling game" do
+      sign_in @user
+      get :show, id: @bowling_game0.id
+      expect(assigns(:bowling_game).id).to eq(@bowling_game0.id) 
+      expect(response).to render_template("show")
+    end
+  end
+
   describe "GET index" do
     it "redirects to login when not signed in" do
       sign_in nil

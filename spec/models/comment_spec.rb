@@ -4,8 +4,7 @@ RSpec.describe Comment, :type => :model do
   before :each do
     @comment = FactoryGirl.build(:comment)
   end
-  it "should require a bowling_game" do
-    @comment.bowling_game_id = nil
-    expect(@comment.valid?).to be false
+  it "should be valid" do
+    expect(@comment.valid?).to be true
   end
 end

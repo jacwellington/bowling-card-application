@@ -27,6 +27,8 @@ RSpec.describe BowlingGame, :type => :model do
         FactoryGirl.create(:frame, bowling_game_id: @bowling_game.id, number: num, first_throw: 10, second_throw: nil, third_throw: nil)
       end
       FactoryGirl.create(:frame, bowling_game_id: @bowling_game.id, number: 10, first_throw: 10, second_throw: 10, third_throw: 10)
+      @bowling_game.score_game
+      @bowling_game.save
       @bowling_game.reload
     end
     it "must calculate frames correctly" do

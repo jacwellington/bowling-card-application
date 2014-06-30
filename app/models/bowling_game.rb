@@ -5,7 +5,6 @@ class BowlingGame < ActiveRecord::Base
   has_many :comments
   accepts_nested_attributes_for :frames
   accepts_nested_attributes_for :comments
-  before_create :score_game
    
   # Checks to see if the game has ten frames, numbered 1 through 10 attached to it.
   #
@@ -27,7 +26,7 @@ class BowlingGame < ActiveRecord::Base
 
   # Score the game by adding up the socres of each individual frame.
   def score_game
-    score = frames.reduce(0) { |sum, frame| sum + score_frame(frame) } 
+    self.score = frames.reduce(0) { |sum, frame| sum + score_frame(frame) } 
   end
 
   # Score an individual frame.
@@ -61,11 +60,11 @@ class BowlingGame < ActiveRecord::Base
   # @params frame [Frame] The current frame in which the strike occured.
   def next_two_throws frame
     if frame.number != 10
-      next_frame = frames.where(number: frame.number + 1).take
+      next_frame = frames.select{|related_frame| related_frame.number ==  frame.number + 1}.first
       first_throw = next_frame.first_throw
       if next_frame.strike?
         if next_frame.number != 10
-          secondary_frame = frames.where(number: next_frame.number + 1).take
+          secondary_frame = frames.select{|related_frame| related_frame.number ==  next_frame.number + 1}.first
           second_throw = secondary_frame.first_throw
         else
           second_throw = next_frame.second_throw

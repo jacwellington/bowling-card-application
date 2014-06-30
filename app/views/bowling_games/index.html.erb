@@ -1,6 +1,6 @@
-<h1>INDEX</h1>
+<h2>My Games</h2>
 <table>
-<tr><th>Score</th><th>Created at date</th><th>Comments</th></tr>
+<tr><th>Score</th><th>Created at date</th><th>Comments</th><th></th><th></tr>
 <% @bowling_games.each do |bowling_game| %>
 	<tr>
 	<td><%= bowling_game.score %></td>
@@ -12,8 +12,9 @@
 			<% end %>
 		<% end %>
 	</td>
+	<td><%= link_to "New Comment", "/bowling_games/#{bowling_game.id}/new-comment" %> <%= link_to "View Game", bowling_game_path(bowling_game.id) %></td>
 	</tr>
 	<% end %>
 </table>
-<p>Average Score: <%= @average_score %></p>
+<p>Average Score: <%= number_with_precision(@average_score, precision: 2) %></p>
 <%= link_to "New Game", new_bowling_game_path %>

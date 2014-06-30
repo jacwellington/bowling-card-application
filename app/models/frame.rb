@@ -6,15 +6,15 @@ class Frame < ActiveRecord::Base
   validates :number, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 10}
 
   # First throw must be between 0 and 10
-  validates :first_throw, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10}
+  validates :first_throw, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10, message: "is not between 0 and 10."}
   # Second throw must be between 0 and 10
-  validates :second_throw, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10}, allow_nil: true
+  validates :second_throw, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10, allow_nil: true, message: "is not between 0 and 10."}
   # Third throw must be between 0 and 10
-  validates :third_throw, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10}, allow_nil: true
+  validates :third_throw, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10, allow_nil: true, message: "is not between 0 and 10."}
 
-  validates :second_throw, presence: true, if: :need_second_throw?
+  validates :second_throw, presence: {message: "is empty but required."}, if: :need_second_throw?
   validate :check_second_throw_not_needed
-  validates :third_throw, presence: true, if: :need_third_throw?
+  validates :third_throw, presence: {message: "is empty but required."}, if: :need_third_throw?
   validate :check_third_throw_not_needed
 
   # This checks whether or not a second throw is required to not be null.
@@ -36,7 +36,7 @@ class Frame < ActiveRecord::Base
   # Fails validation if it's not the tenth frame and a strike.
   def check_second_throw_not_needed
     if number != 10 && strike?
-      errors.add(:second_throw, "Second throw added but not needed.") if second_throw
+      errors.add(:second_throw, "second throw added but not needed.") if second_throw
     end
   end
 
@@ -46,7 +46,7 @@ class Frame < ActiveRecord::Base
   # or if it is the tenth frame and is not a strike or spare. 
   def check_third_throw_not_needed
     if number != 10 || !(strike? || spare?)
-      errors.add(:third_throw, "Third throw added but not needed.") if third_throw
+      errors.add(:third_throw, "third throw added but not needed.") if third_throw
     end
   end
 

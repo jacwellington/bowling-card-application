@@ -1,0 +1,5 @@
+<h2>Comments</h2>
+<%= form_for @comment, url: "/bowling_games/#{@bowling_game_id}/create-comment" do |f| %>
+	Comment: <%= f.text_area :body %>
+	<%= f.submit ("Submit") %>
+<% end %>

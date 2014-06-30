@@ -3,7 +3,11 @@ jacob_bowling_passare
 
 Jacob Wellington's Coding Exercise
 
-This readme is not finished yet.
+Setup
+==
+1. Install postgres
+2. run `(sudo) gem install`
+3. run `rails s`
 
 Heroku
 ==
