@@ -48,7 +48,8 @@ class BowlingGame < ActiveRecord::Base
   # @params frame [Frame] The current frame in which the spare occured.
   def next_throw frame
     if frame.number != 10
-      next_frame = frames.where(number: frame.number + 1).take
+      #next_frame = frames.where(number: frame.number + 1).take
+      next_frame = frames.select{ |related_frame| related_frame.number == frame.number + 1}.first
       return next_frame.first_throw
     else
       return frame.third_throw

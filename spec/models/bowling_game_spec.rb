@@ -49,5 +49,4 @@ RSpec.describe BowlingGame, :type => :model do
       expect(@bowling_game.score).to eq(187)
     end
   end
-
 end
