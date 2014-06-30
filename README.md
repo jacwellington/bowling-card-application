@@ -9,6 +9,12 @@ Setup
 2. `RAILS_ENV=dev Bundle install` (you don't have to specify the environment if you have postgres installed)
 3. `rails s`
 
+Deployment
+==
+1. Add heroku as a remote to your get config. `git remote add heroku git@heroku.com:jacob-wellington-bowling.git`
+2. `git push heroku master`
+3. `heroku run rake db:migrate`
+
 Assumptions
 ==
 -	I’m not going to use bootstrap.
