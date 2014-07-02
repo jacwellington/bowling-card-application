@@ -69,6 +69,18 @@ RSpec.describe Frame, :type => :model do
       @frame.third_throw = 11
       expect(@frame.valid?).to be false
     end
+
+    it "combined can't be greater than ten if the first frame wasn't a strike" do
+      @frame.first_throw = 9
+      @frame.second_throw = 2
+      @frame.number = 9
+      expect(@frame.valid?).to be false
+      @frame.first_throw = 10
+      @frame.second_throw = 2
+      @frame.third_throw = 1
+      @frame.number = 10
+      expect(@frame.valid?).to be true
+    end
   end
   context "first throw" do
     it "can't be nil" do

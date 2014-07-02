@@ -4,7 +4,10 @@
 <div>
 	<h4>Frame <%= frame.number %></h4>
 	<p> First Throw: <%= frame.first_throw %> </p>
-	<p> Second Throw <%= frame.second_throw %> </p>
+	<p> Second Throw: <%= frame.second_throw %> </p>
+	<% if frame.number == 10 && frame.third_throw %>
+		<p> Third Throw: <%= frame.third_throw %>
+	<% end %>
 </div>
 <% end %>
 <h3>Comments</h3>
