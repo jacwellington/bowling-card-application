@@ -19,7 +19,7 @@ class BowlingGamesController < ApplicationController
   def new
     @bowling_game = BowlingGame.new
     10.times {@bowling_game.frames.build }
-    @bowling_game.comments.build
+    3.times { @bowling_game.comments.build }
   end
 
   # Created a new game with the posted params
