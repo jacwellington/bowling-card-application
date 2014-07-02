@@ -27,52 +27,64 @@ class BowlingGame < ActiveRecord::Base
   # @params frame [Frame] The frame to score.
   def score_frame frame
     if frame.strike?
-      frame.first_throw + next_two_throws(frame)
+      frame.first_throw + next_two_throws_after_strike(frame)
     elsif frame.spare?
-      frame.first_throw + frame.second_throw + next_throw(frame)
+      frame.first_throw + frame.second_throw + next_throw_after_spare(frame)
     else
       frame.first_throw + frame.second_throw
     end
   end
 
-  # Get the next frame from the frame a spare happened on
+  private
+
+  # Get the next throw from the frame a spare happened on
   #
   # @params frame [Frame] The current frame in which the spare occured.
-  def next_throw frame
+  # @returns The value of the next throw after a spare.
+  def next_throw_after_spare frame
     if frame.number != 10
-      #next_frame = frames.where(number: frame.number + 1).take
-      next_frame = frames.select{ |related_frame| related_frame.number == frame.number + 1}.first
-      return next_frame.first_throw
+      next_frame(frame).first_throw
     else
-      return frame.third_throw
+      frame.third_throw
     end
   end
 
-  # Get the next two throws from the frame a strike happened on.
+  # Get the sum of the next two throws from the frame a strike happened on.
   #
   # @params frame [Frame] The current frame in which the strike occured.
-  def next_two_throws frame
+  # @returns The sum of the next two throws after a strike.
+  def next_two_throws_after_strike frame
     if frame.number != 10
-      next_frame = frames.select{|related_frame| related_frame.number ==  frame.number + 1}.first
+      next_frame = next_frame(frame)
       first_throw = next_frame.first_throw
-      if next_frame.strike?
-        if next_frame.number != 10
-          secondary_frame = frames.select{|related_frame| related_frame.number ==  next_frame.number + 1}.first
-          second_throw = secondary_frame.first_throw
-        else
-          second_throw = next_frame.second_throw
-        end
-      else
-        second_throw = next_frame.second_throw
-      end
+      second_throw = second_throw_after_strike(next_frame)
     else
       first_throw = frame.second_throw
       second_throw = frame.third_throw
     end
-    return first_throw + second_throw
+    first_throw + second_throw
+  end
+  
+  # Gets the second throw to add to a strike.
+  #
+  # @params next_frame [Frame] The next frame after the strike occured.
+  # @returns The value of the second throw after a strike.
+  def second_throw_after_strike(next_frame)
+    if next_frame.strike? && next_frame.number != 10
+        secondary_frame = next_frame(next_frame)
+        second_throw = secondary_frame.first_throw
+    else
+      second_throw = next_frame.second_throw
+    end
   end
 
-  private
+  # Gets the next frame.
+  #
+  # @params current_frame [Frame] Current frame that is not the last frame.
+  # @returns The next frame after the current frame.
+  def next_frame(current_frame)
+    frames.select{|related_frame| related_frame.number ==  current_frame.number + 1}.first
+  end
 
   # Checks to see if all frames are numbered 1 through 10.
   #
