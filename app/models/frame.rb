@@ -16,6 +16,7 @@ class Frame < ActiveRecord::Base
   validate :check_second_throw_not_needed
   validates :third_throw, presence: {message: "is empty but required."}, if: :need_third_throw?
   validate :check_third_throw_not_needed
+  validate :check_total_score_greater_than_10
 
   # This checks whether or not a second throw is required to not be null.
   #
@@ -36,7 +37,7 @@ class Frame < ActiveRecord::Base
   # Fails validation if it's not the tenth frame and a strike.
   def check_second_throw_not_needed
     if number != 10 && strike?
-      errors.add(:second_throw, "second throw added but not needed.") if second_throw
+      errors.add(:second_throw, "added but not needed.") if second_throw
     end
   end
 
@@ -46,7 +47,17 @@ class Frame < ActiveRecord::Base
   # or if it is the tenth frame and is not a strike or spare. 
   def check_third_throw_not_needed
     if number != 10 || !(strike? || spare?)
-      errors.add(:third_throw, "third throw added but not needed.") if third_throw
+      errors.add(:third_throw, "added but not needed.") if third_throw
+    end
+  end
+
+  # Validates if too many pins were knocked down.
+  #
+  # Fail validation if the total score is greater than ten 
+  # and it's not a strike on the final frame.
+  def check_total_score_greater_than_10
+    if first_throw && second_throw && first_throw != 10 && first_throw + second_throw > 10
+      errors.add(:second_throw, "frame adds to more than 10.")
     end
   end
 
