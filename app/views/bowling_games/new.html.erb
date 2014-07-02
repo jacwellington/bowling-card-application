@@ -15,7 +15,7 @@
 	<% end %>
 </ul>
 <%= f.fields_for :comments do |comment_form| %>
-	Comments: <%= comment_form.text_field :body %>
+	Comments: <%= comment_form.text_area :body %><br/>
 <% end %>
 <br/>
 <%= f.submit ("Submit") %>
