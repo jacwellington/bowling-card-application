@@ -9,22 +9,12 @@ class BowlingGame < ActiveRecord::Base
   scope :with_comments_and_frames, includes(:comments, :frames)
   scope :with_user, ->(user_id) { where(user_id: user_id) }
    
-  # Checks to see if the game has ten frames, numbered 1 through 10 attached to it.
+  # Checks if the game has ten frames.
   #
-  # @returns True if there are ten frames.
+  # @returns True if there are ten frames, numbered 1 through 10.
   def finished?
     sorted_frames = frames.sort {|a,b| a.number <=> b.number}
-    finished = true
-    if sorted_frames.length == 10
-      sorted_frames.zip(1..10).each do |frame_index_pair|
-        if frame_index_pair[0].number != frame_index_pair[1]
-          finished = false
-        end
-      end
-    else
-      finished = false
-    end
-    return finished
+    sorted_frames.length == 10 && check_frames_one_to_ten(sorted_frames)
   end
 
   # Score the game by adding up the socres of each individual frame.
@@ -80,6 +70,22 @@ class BowlingGame < ActiveRecord::Base
       second_throw = frame.third_throw
     end
     return first_throw + second_throw
+  end
+
+  private
+
+  # Checks to see if all frames are numbered 1 through 10.
+  #
+  # @params sorted_frames [Array] A list of all the frames sorted 1 through ten.
+  # @returns True if the frames are numbered 1 through 10.
+  def check_frames_one_to_ten(sorted_frames)
+    has_ten_frames = true
+    sorted_frames.zip(1..10).each do |frame_index_pair|
+      if frame_index_pair[0].number != frame_index_pair[1]
+        has_ten_frames = false
+      end
+    end
+    return has_ten_frames 
   end
 
 end
