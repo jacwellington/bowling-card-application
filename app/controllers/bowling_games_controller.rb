@@ -39,10 +39,12 @@ class BowlingGamesController < ApplicationController
           end
         end
         error = "Errors: " + @bowling_game.errors.full_messages.first if !error
-        redirect_to new_bowling_game_path, error: error
+        flash[:error] = error
+        render :new
       end
     else
-      redirect_to new_bowling_game_path, error: "Youd did not complete the bowling game." 
+      flash[:error] = "You did not complete the bowling game." 
+      render :new
     end
   end
 
