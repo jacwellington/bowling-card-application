@@ -3,7 +3,7 @@ class BowlingGamesController < ApplicationController
 
   # Show a single game
   def show
-    @bowling_game = BowlingGame.eager_load(:comments, :frames).where(id: params[:id], user_id: current_user.id).first
+    @bowling_game = BowlingGame.with_comments_and_frames.with_user(current_user.id).find_by_id(params[:id])
     if !@bowling_game
       redirect_to(bowling_games_path)
     end

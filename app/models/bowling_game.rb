@@ -5,6 +5,9 @@ class BowlingGame < ActiveRecord::Base
   has_many :comments
   accepts_nested_attributes_for :frames
   accepts_nested_attributes_for :comments
+
+  scope :with_comments_and_frames, includes(:comments, :frames)
+  scope :with_user, ->(user_id) { where(user_id: user_id) }
    
   # Checks to see if the game has ten frames, numbered 1 through 10 attached to it.
   #
