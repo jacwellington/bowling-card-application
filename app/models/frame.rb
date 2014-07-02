@@ -45,7 +45,7 @@ class Frame < ActiveRecord::Base
   # Fail validation if it's not the tenth frame,
   # or if it is the tenth frame and is not a strike or spare. 
   def check_third_throw_not_needed
-    if number != 10 || !(strike? || spare?)
+    unless number == 10 && (strike? || spare?)
       errors.add(:third_throw, "third throw added but not needed.") if third_throw
     end
   end
