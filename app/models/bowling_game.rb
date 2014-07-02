@@ -37,13 +37,12 @@ class BowlingGame < ActiveRecord::Base
   # @params frame [Frame] The frame to score.
   def score_frame frame
     if frame.strike?
-      frame_score = frame.first_throw + next_two_throws(frame)
+      frame.first_throw + next_two_throws(frame)
     elsif frame.spare?
-      frame_score = frame.first_throw + frame.second_throw + next_throw(frame)
+      frame.first_throw + frame.second_throw + next_throw(frame)
     else
-      frame_score = frame.first_throw + frame.second_throw
+      frame.first_throw + frame.second_throw
     end
-    return frame_score
   end
 
   # Get the next frame from the frame a spare happened on
