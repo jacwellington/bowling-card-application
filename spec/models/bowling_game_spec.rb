@@ -31,6 +31,14 @@ RSpec.describe BowlingGame, :type => :model do
       @bowling_game.save
       @bowling_game.reload
     end
+    it "must require the frames to be numbered 1 through 10" do
+      frames = @bowling_game.frames.take(2)
+      frames[0].number = 2
+      frames[1].number = 2
+      frames[0].save
+      frames[1].save
+      expect(@bowling_game.finished?).to be false
+    end
     it "must calculate frames correctly" do
       first_frame = @bowling_game.frames.where(number: 1).take
       frame_score = @bowling_game.score_frame first_frame     
@@ -43,6 +51,16 @@ RSpec.describe BowlingGame, :type => :model do
         strike_score = @bowling_game.score_frame strike_frame
         expect(strike_score).to eq(30)
       end
+    end
+    it "must calculate frames correctly with a spare on the last frame" do
+      frame = @bowling_game.frames.where(number: 10).first
+      frame.first_throw = 5
+      frame.second_throw = 5
+      frame.third_throw = 2
+      frame.save
+      expect(@bowling_game.finished?).to be true
+      @bowling_game.score_game
+      expect(@bowling_game.score).to eq(154)
     end
 
     it "must calculate score correctly" do

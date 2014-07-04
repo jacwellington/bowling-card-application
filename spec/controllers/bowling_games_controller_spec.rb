@@ -87,12 +87,22 @@ RSpec.describe BowlingGamesController, :type => :controller do
   describe "POST create" do
     it "redirects to login when not signed in" do
       sign_in nil
-      
-
-
-
       post :create
       expect(response).to redirect_to(new_user_session_path)
+    end
+    it "re-renders new when game is not finished" do
+      sign_in @user
+      params = {"utf8"=>"✓", "authenticity_token"=>"bVXZax1cc3DWwj+fhXeOY2e+4DK8y1s+QTg2chcQ8j4=", "bowling_game"=>{"frames_attributes"=>{"0"=>{"first_throw"=>"4", "second_throw"=>"4", "number"=>"1"}, "1"=>{"first_throw"=>"10", "second_throw"=>"", "number"=>"2"}, "2"=>{"first_throw"=>"4", "second_throw"=>"5", "number"=>"3"}, "3"=>{"first_throw"=>"5", "second_throw"=>"5", "number"=>"4"}, "4"=>{"first_throw"=>"10", "second_throw"=>"", "number"=>"5"}, "5"=>{"first_throw"=>"10", "second_throw"=>"", "number"=>"6"}, "6"=>{"first_throw"=>"9", "second_throw"=>"1", "number"=>"7"}, "7"=>{"first_throw"=>"4", "second_throw"=>"0", "number"=>"8"}, "8"=>{"first_throw"=>"4", "second_throw"=>"6", "number"=>"9"}}, "comments_attributes"=>{"0"=>{"body"=>""}}}, "commit"=>"Submit"}
+      post :create, params
+      expect(response).to render_template("new")
+    end
+    it "re-renders new when game is not valid" do
+      sign_in @user
+      params = {"utf8"=>"✓", "authenticity_token"=>"bVXZax1cc3DWwj+fhXeOY2e+4DK8y1s+QTg2chcQ8j4=", "bowling_game"=>{"frames_attributes"=>{"0"=>{"first_throw"=>"4", "second_throw"=>"4", "number"=>"1"}, "1"=>{"first_throw"=>"10", "second_throw"=>"", "number"=>"2"}, "2"=>{"first_throw"=>"4", "second_throw"=>"5", "number"=>"3"}, "3"=>{"first_throw"=>"5", "second_throw"=>"9", "number"=>"4"}, "4"=>{"first_throw"=>"10", "second_throw"=>"", "number"=>"5"}, "5"=>{"first_throw"=>"10", "second_throw"=>"", "number"=>"6"}, "6"=>{"first_throw"=>"9", "second_throw"=>"1", "number"=>"7"}, "7"=>{"first_throw"=>"4", "second_throw"=>"0", "number"=>"8"}, "8"=>{"first_throw"=>"4", "second_throw"=>"6", "number"=>"9"}}, "comments_attributes"=>{"0"=>{"body"=>""}}}, "commit"=>"Submit"}
+      post :create, params
+      created_game = assigns(:bowling_game)
+      expect(created_game.valid?).to be false
+      expect(response).to render_template("new")
     end
     it "successfully creates the bowling game" do
       sign_in @user
@@ -102,6 +112,7 @@ RSpec.describe BowlingGamesController, :type => :controller do
       expect(created_game).to be
       expect(created_game.finished?).to be true
       expect(BowlingGame.find(created_game.id)).to be
+      expect(response).to redirect_to("/bowling_games")
     end
   end
 end
