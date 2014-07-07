@@ -1,16 +1,19 @@
 <h2>Total score: <%= @bowling_game.score %> </h2>
-<h3>Frames</h3>
 <% @bowling_game.frames.each do |frame| %>
-<div>
-	<h4>Frame <%= frame.number %></h4>
-	<p> First Throw: <%= frame.first_throw %> </p>
-	<p> Second Throw: <%= frame.second_throw %> </p>
+<div class="frame-view">
+	<h3>Frame <%= frame.number %></h3>
+	<table class="score-card">
+		<tr><td>First Throw:</td><td> <%= frame.first_throw %> </td></tr>
+	<tr><td>Second Throw: </td><td><%= frame.second_throw %> </td></tr>
 	<% if frame.number == 10 && frame.third_throw %>
-		<p> Third Throw: <%= frame.third_throw %>
+		<tr><td> Third Throw: </td><td> <%= frame.third_throw %></td></tr>
 	<% end %>
+</table>
 </div>
 <% end %>
+<div class="comments">
 <h3>Comments</h3>
 <% @bowling_game.comments.each do |comment| %>
 	<p><%= comment.body %></p>
 <% end %>
+</div>

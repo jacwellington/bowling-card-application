@@ -1,22 +1,28 @@
+<h2>New Game</h2>
 <%= form_for @bowling_game do |f| %>
 <ul>
 	<% frame_number = 1 %>
 	<%= f.fields_for :frames do |frame_form| %>
 	<li>
-	<h2><%= frame_number %></h2>
-	First Throw: <%= frame_form.number_field :first_throw %><br/>
-		Second Throw: <%= frame_form.number_field :second_throw %>
+	<h3>Frame <%= frame_number %></h3>
+	<table class="frame-card">
+		<tr><td><label>First Throw: </label></td><td><%= frame_form.number_field :first_throw %></td></tr>
+		<tr><td><label>Second Throw: </label></td><td><%= frame_form.number_field :second_throw %></td></tr>
 		<% if frame_number == 10 %> 
-			<br/>Third Throw: <%= frame_form.number_field :third_throw %>
+			<tr><td>Third Throw: </td><td><%= frame_form.number_field :third_throw %></td></tr>
 		<% end %>
+	</table>
 		<%= frame_form.hidden_field :number, value: frame_number %>
 		<% frame_number = frame_number + 1 %>
 	</li>
 	<% end %>
 </ul>
+<div class="comments">
 <%= f.fields_for :comments do |comment_form| %>
-	Comments: <%= comment_form.text_area :body %><br/>
+	<div class="comment">
+		Comment: <%= comment_form.text_area :body %><br/>
+	</div>
 <% end %>
-<br/>
+</div>
 <%= f.submit ("Submit") %>
 <% end %>

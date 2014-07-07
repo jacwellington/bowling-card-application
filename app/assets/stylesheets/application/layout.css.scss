@@ -6,5 +6,70 @@
 // Layout styles
 //-----------------------------------------
 
-html {}
-body {}
+html {
+	color: $purple;
+}
+body {
+	margin: 2em;
+}
+h1, h2, h3{
+	margin: 0.3em 0;
+	color: $dark-purple;
+}
+a{
+	color: $teal;
+	&:visited {
+		color: $light-teal;
+	}
+	&:hover{
+		color: $dark-teal;
+	}
+}
+table{
+	border-collapse: collapse;
+	td{
+		padding: 1em;
+	}
+}
+table, th, td{
+	border: 1px solid $dark-purple;
+}
+footer{
+	padding-top: 2em;
+}
+ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	li{
+		float: left;
+		margin-right: 1em;
+	}
+	h3{
+		margin-bottom: .1em;
+		margin-top: .5em;
+	}
+	.field_with_errors{
+		display: inline;
+		input{
+			border-color: red;
+		}
+	}
+}
+.frame-card{
+	td{
+		border: 0;
+		padding: .3em;
+	}
+}
+.comments{
+	clear: both;
+	padding-top: 1em;
+	.comment{
+		margin-bottom: 1em;
+	}
+}
+.frame-view{
+	float: left;
+	margin-right: 1em;
+}

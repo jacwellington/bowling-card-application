@@ -8,13 +8,16 @@
 //----------------------------------------------
 // Html5 Boilerplate overrides
 //----------------------------------------------
+$light-purple: #8E7EB3;
+$purple: #473178;
+$dark-purple: #2E195D;
+$light-teal: #71A99C;
+$teal: #267160;
+$dark-teal: #013C2F;
 $line-height: 1.4;  // 1.4 for true normalization
-$font-color: #222;
-$font-family: sans-serif;
+$font-color: $purple;
+$font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
 $font-size: 1em;
-$link-color: #00e;
-$link-hover-color: #06e;
-$link-visited-color: #551a8b;
 $selected-font-color: #fff;
-$selected-background-color: #ff5e99;
+$selected-background-color: #777;
 $invalid-background-color: #f0dddd;

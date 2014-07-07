@@ -12,7 +12,8 @@
 			<% end %>
 		<% end %>
 	</td>
-	<td><%= link_to "New Comment", "/bowling_games/#{bowling_game.id}/new-comment" %> <%= link_to "View Game", bowling_game_path(bowling_game.id) %></td>
+<td><%= link_to "New Comment", "/bowling_games/#{bowling_game.id}/new-comment" %></td>
+<td><%= link_to "View Game", bowling_game_path(bowling_game.id) %></td>
 	</tr>
 	<% end %>
 </table>
